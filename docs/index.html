@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Omani Agriculture Sector – Value Added % of GDP</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+</head>
+<body>
+  <h1>Value Added in the Agricultural Sector</h1>
+  <p class="subtitle">As a percent of Omani GDP — data loaded live from Google Sheets.</p>
+
+  <div id="loading">Loading data from Google Sheets…</div>
+  <div id="error" role="alert"></div>
+
+  <div id="charts" style="display: none;">
+    <div class="chart-container">
+      <h2>Full range (1961–2024)</h2>
+      <div id="chart-full"></div>
+    </div>
+    <div class="chart-container">
+      <h2>Recent period (2011–2024)</h2>
+      <div id="chart-filtered"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
