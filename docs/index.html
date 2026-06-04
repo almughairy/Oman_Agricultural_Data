@@ -3,27 +3,115 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Omani Agriculture Sector – Value Added % of GDP</title>
+  <title>Omani Agriculture Sector – Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
 </head>
 <body>
-  <h1>Value Added in the Agricultural Sector</h1>
-  <p class="subtitle">As a percent of Omani GDP — data loaded live from Google Sheets.</p>
-
-  <div id="loading">Loading data from Google Sheets…</div>
-  <div id="error" role="alert"></div>
-
-  <div id="charts" style="display: none;">
-    <div class="chart-container">
-      <h2>Full range (1961–2024)</h2>
-      <div id="chart-full"></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Oman Agricultural Data</p>
+      <h1>Value Added in the Agricultural Sector</h1>
+      <p class="subtitle">Explore GDP contribution and crop production trends — GDP data loads live from Google Sheets.</p>
+      <p class="hero-meta" id="last-updated">Last updated: —</p>
     </div>
-    <div class="chart-container">
-      <h2>Recent period (2011–2024)</h2>
-      <div id="chart-filtered"></div>
+  </header>
+
+  <nav class="section-nav" aria-label="Dashboard sections">
+    <a href="#gdp-full" class="nav-link active" data-section="gdp-full">GDP Overview</a>
+    <a href="#gdp-recent" class="nav-link" data-section="gdp-recent">Recent GDP</a>
+    <a href="#crop-trends" class="nav-link" data-section="crop-trends">Crop Trends</a>
+    <a href="#crop-growth" class="nav-link" data-section="crop-growth">Growth Rates</a>
+  </nav>
+
+  <div id="kpi-row" class="kpi-grid hidden">
+    <div class="kpi-card">
+      <span class="kpi-label">Latest GDP %</span>
+      <span class="kpi-value" id="kpi-latest-gdp">—</span>
+      <span class="kpi-detail" id="kpi-latest-year">—</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-label">Peak GDP</span>
+      <span class="kpi-value" id="kpi-peak-gdp">—</span>
+      <span class="kpi-detail" id="kpi-peak-year">—</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-label">Top Crop Growth</span>
+      <span class="kpi-value" id="kpi-top-growth">—</span>
+      <span class="kpi-detail" id="kpi-top-growth-detail">2024/2023</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-label">Total Production</span>
+      <span class="kpi-value" id="kpi-total-prod">—</span>
+      <span class="kpi-detail">2024 (tons)</span>
     </div>
   </div>
+
+  <div id="kpi-skeleton" class="kpi-grid skeleton-grid">
+    <div class="skeleton kpi-skeleton"></div>
+    <div class="skeleton kpi-skeleton"></div>
+    <div class="skeleton kpi-skeleton"></div>
+    <div class="skeleton kpi-skeleton"></div>
+  </div>
+
+  <div id="loading" class="loading-banner">
+    <div class="loading-spinner"></div>
+    <span>Loading GDP data from Google Sheets…</span>
+  </div>
+
+  <div id="error" class="error-banner hidden" role="alert"></div>
+
+  <main id="charts" class="hidden">
+    <section id="gdp-full" class="chart-section fade-in">
+      <div class="section-header">
+        <h2>GDP Overview (1961–2024)</h2>
+        <p class="section-desc">Agricultural value added as a share of Omani GDP across the full historical record.</p>
+      </div>
+      <div class="chart-controls">
+        <span class="control-label">Show</span>
+        <div id="year-presets" class="preset-group" role="group" aria-label="Choose a time period"></div>
+      </div>
+      <div class="chart-container">
+        <div id="chart-full"></div>
+      </div>
+    </section>
+
+    <section id="gdp-recent" class="chart-section fade-in">
+      <div class="section-header">
+        <h2>Recent GDP (2011–2024)</h2>
+        <p class="section-desc">Focused view of the most recent period with tighter y-axis scaling.</p>
+      </div>
+      <div class="chart-container">
+        <div id="chart-filtered"></div>
+      </div>
+    </section>
+
+    <section id="crop-trends" class="chart-section fade-in">
+      <div class="section-header">
+        <h2>Crop Production by Type (2016–2023)</h2>
+        <p class="section-desc">Annual production volumes by crop category in tons.</p>
+      </div>
+      <div class="chart-controls" id="crop-toggles" role="group" aria-label="Toggle crop series">
+        <!-- Populated by app.js -->
+      </div>
+      <div class="chart-container">
+        <div id="chart-production"></div>
+      </div>
+    </section>
+
+    <section id="crop-growth" class="chart-section fade-in">
+      <div class="section-header">
+        <h2>Crop Production Growth Rates (2022–2024)</h2>
+        <p class="section-desc">Compare year-over-year growth side by side — sorted by strongest 2024 growth. Bars extend right for gains and left for declines.</p>
+      </div>
+      <div class="chart-container chart-container--growth">
+        <div id="chart-growth"></div>
+      </div>
+    </section>
+  </main>
 
   <script src="app.js"></script>
 </body>
